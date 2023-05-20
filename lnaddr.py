@@ -206,6 +206,12 @@ def lnencode(addr, privkey):
             data += tagged_bytes('h', hashlib.sha256(v.encode('utf-8')).digest())
         elif k == 'n':
             data += tagged_bytes('n', v)
+        elif k == 'c':
+            # Get minimal length by trimming leading 5 bits at a time.
+            expirybits = bitstring.pack('intbe:64', v)[4:64]
+            while expirybits.startswith('0b00000'):
+                expirybits = expirybits[5:]
+            data += tagged('c', expirybits)
         else:
             # FIXME: Support unknown tags?
             raise ValueError("Unknown tag {}".format(k))

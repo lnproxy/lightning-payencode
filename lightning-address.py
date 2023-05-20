@@ -25,6 +25,8 @@ def encode(options):
         addr.tags.append(('h', options.description_hashed))
     if options.expires:
         addr.tags.append(('x', options.expires))
+    if options.min_final_cltv_expiry_delta:
+        addr.tags.append(('c', options.min_final_cltv_expiry_delta))
 
     if options.fallback:
         addr.tags.append(('f', options.fallback))
@@ -108,6 +110,8 @@ parser_enc.add_argument('--timestamp', type=int,
                         help='Timestamp (seconds after epoch) instead of now')
 parser_enc.add_argument('--no-amount', action="store_true",
                         help="Don't encode amount")
+parser_enc.add_argument('--min_final_cltv_expiry_delta', type=int,
+                        help='Minimum final cltv expiry delta in blocks')
 parser_enc.add_argument('amount', type=float, help='Amount in currency')
 parser_enc.add_argument('paymenthash', help='Payment hash (in hex)')
 parser_enc.add_argument('privkey', help='Private key (in hex)')
