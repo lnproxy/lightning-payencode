@@ -347,6 +347,10 @@ def lndecode(a, verbose=False):
                 continue
             addr.pubkey = secp256k1.PublicKey()
             addr.pubkey.deserialize(trim_to_bytes(tagdata))
+
+        elif tag == 'c':
+            addr.tags.append(('c', tagdata.uint))
+
         else:
             addr.unknown_tags.append((tag, tagdata))
 

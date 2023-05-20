@@ -78,7 +78,11 @@ def decode(options):
     if expiry:
         print("Expiry (seconds):", expiry[0])
 
-    for t in [t for t in a.tags if t[0] not in 'rdfhx']:
+    min_final_cltv_expiry_delta = tags_by_name('c', a.tags)
+    if expiry:
+        print("min_final_cltv_expiry_delta (blocks):", min_final_cltv_expiry_delta[0])
+
+    for t in [t for t in a.tags if t[0] not in 'rdfhxc']:
         print("UNKNOWN TAG {}: {}".format(t[0], hexlify(t[1])))
 
 parser = argparse.ArgumentParser(description='Encode lightning address')
