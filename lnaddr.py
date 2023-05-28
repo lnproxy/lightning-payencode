@@ -213,8 +213,8 @@ def lnencode(addr, privkey):
                 expirybits = expirybits[5:]
             data += tagged('c', expirybits)
         else:
-            # FIXME: Support unknown tags?
-            raise ValueError("Unknown tag {}".format(k))
+            k, tagdata, _ = pull_tagged(bitstring.ConstBitStream(u5_to_bitarray([CHARSET.find(x) for x in v])))
+            data += tagged(k, tagdata)
 
         tags_set.add(k)
 

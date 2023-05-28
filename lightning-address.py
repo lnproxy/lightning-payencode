@@ -27,7 +27,6 @@ def encode(options):
         addr.tags.append(('x', options.expires))
     if options.min_final_cltv_expiry_delta:
         addr.tags.append(('c', options.min_final_cltv_expiry_delta))
-
     if options.fallback:
         addr.tags.append(('f', options.fallback))
 
@@ -43,6 +42,10 @@ def encode(options):
             splits = splits[5:]
         assert(len(splits) == 0)
         addr.tags.append(('r', route))
+
+    for t in options.tag:
+        addr.tags.append((None, t))
+
     print(lnencode(addr, options.privkey))
 
 
@@ -112,6 +115,8 @@ parser_enc.add_argument('--no-amount', action="store_true",
                         help="Don't encode amount")
 parser_enc.add_argument('--min_final_cltv_expiry_delta', type=int,
                         help='Minimum final cltv expiry delta in blocks')
+parser_enc.add_argument('--tag', action='append', default=[],
+                        help='Additional tags in bech32 (probably copied from other invoices)')
 parser_enc.add_argument('amount', type=float, help='Amount in currency')
 parser_enc.add_argument('paymenthash', help='Payment hash (in hex)')
 parser_enc.add_argument('privkey', help='Private key (in hex)')
